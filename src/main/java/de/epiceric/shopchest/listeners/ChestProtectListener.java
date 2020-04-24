@@ -9,19 +9,14 @@ import de.epiceric.shopchest.language.Message;
 import de.epiceric.shopchest.language.Replacement;
 import de.epiceric.shopchest.shop.Shop;
 import de.epiceric.shopchest.shop.Shop.ShopType;
-import de.epiceric.shopchest.utils.Callback;
-import de.epiceric.shopchest.utils.ItemUtils;
-import de.epiceric.shopchest.utils.Permissions;
-import de.epiceric.shopchest.utils.ShopUtils;
-import de.epiceric.shopchest.utils.Utils;
+import de.epiceric.shopchest.utils.*;
 import net.milkbowl.vault.economy.EconomyResponse;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.type.Chest.Type;
 import org.bukkit.entity.Player;
@@ -29,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -50,8 +46,8 @@ public class ChestProtectListener implements Listener {
     private void remove(final Shop shop, final Block b, final Player p) {
         if (shop.getInventoryHolder() instanceof DoubleChest) {
             DoubleChest dc = (DoubleChest) shop.getInventoryHolder();
-            final Chest l = (Chest) dc.getLeftSide();
-            final Chest r = (Chest) dc.getRightSide();
+            final Container l = (Container) dc.getLeftSide();
+            final Container r = (Container) dc.getRightSide();
 
             Location loc = (b.getLocation().equals(l.getLocation()) ? r.getLocation() : l.getLocation());
             final Shop newShop = new Shop(shop.getID(), plugin, shop.getVendor(), shop.getProduct(), loc, shop.getBuyPrice(), shop.getSellPrice(), shop.getShopType());
@@ -123,8 +119,21 @@ public class ChestProtectListener implements Listener {
     public void onEntityExplode(EntityExplodeEvent e) {
         ArrayList<Block> bl = new ArrayList<>(e.blockList());
         for (Block b : bl) {
-            if (b.getType().equals(Material.CHEST) || b.getType().equals(Material.TRAPPED_CHEST)) {
+            if (Config.allowedContainerType.contains(b.getType())) {
                 if (shopUtils.isShop(b.getLocation())) e.blockList().remove(b);
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockDispenseEvent(BlockDispenseEvent e) {
+        Block b = e.getBlock();
+        if(e.getBlock().getType().equals(Material.DISPENSER)){
+            if (Config.allowedContainerType.contains(b.getType())) {
+                if (shopUtils.isShop(b.getLocation())){
+                    e.setCancelled(true);
+                    return;
+                }
             }
         }
     }
@@ -134,11 +143,11 @@ public class ChestProtectListener implements Listener {
         final Player p = e.getPlayer();
         final Block b = e.getBlockPlaced();
 
-        if (!b.getType().equals(Material.CHEST) && !b.getType().equals(Material.TRAPPED_CHEST)) {
+        if (!Config.allowedContainerType.contains(b.getType())) {
             return;
         }
-        
-        Chest c = (Chest) b.getState();
+
+        Container c = (Container) b.getState();
         Block b2;
 
         // Can't use Utils::getChestLocations since inventory holder
@@ -151,8 +160,8 @@ public class ChestProtectListener implements Listener {
             }
 
             DoubleChest dc = (DoubleChest) ih;
-            Chest l = (Chest) dc.getLeftSide();
-            Chest r = (Chest) dc.getRightSide();
+            Container l = (Container) dc.getLeftSide();
+            Container r = (Container) dc.getRightSide();
 
             if (b.getLocation().equals(l.getLocation())) {
                 b2 = r.getBlock();
@@ -232,13 +241,13 @@ public class ChestProtectListener implements Listener {
 
             if (e.getSource().getHolder() instanceof DoubleChest) {
                 DoubleChest dc = (DoubleChest) e.getSource().getHolder();
-                Chest r = (Chest) dc.getRightSide();
-                Chest l = (Chest) dc.getLeftSide();
+                Container r = (Container) dc.getRightSide();
+                Container l = (Container) dc.getLeftSide();
 
                 if (shopUtils.isShop(r.getLocation()) || shopUtils.isShop(l.getLocation())) e.setCancelled(true);
 
-            } else if (e.getSource().getHolder() instanceof Chest) {
-                Chest c = (Chest) e.getSource().getHolder();
+            } else if (e.getSource().getHolder() instanceof Container) {
+                Container c = (Container) e.getSource().getHolder();
 
                 if (shopUtils.isShop(c.getLocation())) e.setCancelled(true);
             }

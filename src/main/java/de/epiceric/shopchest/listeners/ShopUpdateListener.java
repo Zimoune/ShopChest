@@ -3,13 +3,9 @@ package de.epiceric.shopchest.listeners;
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.shop.Shop;
 import de.epiceric.shopchest.utils.Callback;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +17,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ShopUpdateListener implements Listener {
 
@@ -37,12 +36,12 @@ public class ShopUpdateListener implements Listener {
 
         Location loc = null;
 
-        if (e.getSource().getHolder() instanceof Chest) {
-            loc =  ((Chest) e.getSource().getHolder()).getLocation();
+        if (e.getSource().getHolder() instanceof Container) {
+            loc =  ((Container) e.getSource().getHolder()).getLocation();
         } else if (e.getSource().getHolder() instanceof DoubleChest) {
             loc =  ((DoubleChest) e.getSource().getHolder()).getLocation();
-        } else if (e.getDestination().getHolder() instanceof Chest) {
-            loc =  ((Chest) e.getDestination().getHolder()).getLocation();
+        } else if (e.getDestination().getHolder() instanceof Container) {
+            loc =  ((Container) e.getDestination().getHolder()).getLocation();
         } else if (e.getDestination().getHolder() instanceof DoubleChest) {
             loc =  ((DoubleChest) e.getDestination().getHolder()).getLocation();
         }

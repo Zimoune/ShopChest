@@ -5,7 +5,7 @@ import de.epiceric.shopchest.language.LanguageUtils;
 import de.epiceric.shopchest.sql.Database;
 import de.epiceric.shopchest.utils.ItemUtils;
 import de.epiceric.shopchest.utils.Utils;
-
+import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,12 +14,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Config {
+
+    private final Set<Material> containerTypes = EnumSet.of(
+            Material.CHEST,
+            Material.DISPENSER,
+            Material.TRAPPED_CHEST,
+            Material.BARREL
+    );
 
     /**
      * The item with which a player can click a shop to retrieve information
@@ -120,6 +124,13 @@ public class Config {
      * If this list contains an item (e.g "STONE", "STONE:1"), it's in the blacklist.
      **/
     public static List<String> blacklist;
+
+    /**
+     * <p>List containing items, of which players can't create a shop</p>
+     * If this list contains an item (e.g "STONE", "STONE:1"), it's in the blacklist.
+     **/
+    public static List<String> allowedContainerTypeString;
+    public static List<Material> allowedContainerType;
 
     /**
      * Whether prices may contain decimals
@@ -468,6 +479,7 @@ public class Config {
         autoCalculateItemAmount = (allowDecimalsInPrice && plugin.getConfig().getBoolean("auto-calculate-item-amount"));
         creativeSelectItem = plugin.getConfig().getBoolean("creative-select-item");
         blacklist = (plugin.getConfig().getStringList("blacklist") == null) ? new ArrayList<String>() : plugin.getConfig().getStringList("blacklist");
+        allowedContainerTypeString = (plugin.getConfig().getStringList("allowed-container-type") == null) ? new ArrayList<String>() : plugin.getConfig().getStringList("allowed-container-type");
         buyGreaterOrEqualSell = plugin.getConfig().getBoolean("buy-greater-or-equal-sell");
         confirmShopping = plugin.getConfig().getBoolean("confirm-shopping");
         refundShopCreation = plugin.getConfig().getBoolean("refund-shop-creation");
@@ -499,6 +511,18 @@ public class Config {
         defaultLimit = plugin.getConfig().getInt("shop-limits.default");
         mainCommandName = plugin.getConfig().getString("main-command-name");
         languageFile = plugin.getConfig().getString("language-file");
+        allowedContainerType = new ArrayList<>();
+        for(String containerType: allowedContainerTypeString){
+            Material material = null;
+            try{
+                 material = Material.valueOf(containerType);
+            }catch (IllegalArgumentException exception){
+                ShopChest.getInstance().getLogger().severe(containerType+ " is not a container type.");
+            }
+            if(material != null && containerTypes.contains(material)){
+                allowedContainerType.add(material);
+            }
+        }
 
         if (firstLoad || langReload) loadLanguageConfig(showMessages);
         if (!firstLoad && langReload) LanguageUtils.load();

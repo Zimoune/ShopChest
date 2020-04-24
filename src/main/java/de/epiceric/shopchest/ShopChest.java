@@ -7,38 +7,19 @@ import de.epiceric.shopchest.config.Config;
 import de.epiceric.shopchest.config.HologramFormat;
 import de.epiceric.shopchest.event.ShopInitializedEvent;
 import de.epiceric.shopchest.external.BentoBoxShopFlag;
-import de.epiceric.shopchest.external.PlotSquaredShopFlag;
 import de.epiceric.shopchest.external.WorldGuardShopFlag;
-import de.epiceric.shopchest.external.listeners.ASkyBlockListener;
-import de.epiceric.shopchest.external.listeners.GriefPreventionListener;
-import de.epiceric.shopchest.external.listeners.IslandWorldListener;
-import de.epiceric.shopchest.external.listeners.PlotSquaredListener;
-import de.epiceric.shopchest.external.listeners.TownyListener;
-import de.epiceric.shopchest.external.listeners.USkyBlockListener;
+import de.epiceric.shopchest.external.listeners.*;
 import de.epiceric.shopchest.language.LanguageUtils;
-import de.epiceric.shopchest.listeners.AreaShopListener;
 import de.epiceric.shopchest.listeners.BentoBoxListener;
-import de.epiceric.shopchest.listeners.BlockExplodeListener;
-import de.epiceric.shopchest.listeners.ChestProtectListener;
-import de.epiceric.shopchest.listeners.CreativeModeListener;
-import de.epiceric.shopchest.listeners.NotifyPlayerOnJoinListener;
-import de.epiceric.shopchest.listeners.ShopInteractListener;
-import de.epiceric.shopchest.listeners.ShopItemListener;
-import de.epiceric.shopchest.listeners.ShopUpdateListener;
 import de.epiceric.shopchest.listeners.WorldGuardListener;
+import de.epiceric.shopchest.listeners.*;
 import de.epiceric.shopchest.shop.Shop;
 import de.epiceric.shopchest.shop.Shop.ShopType;
 import de.epiceric.shopchest.sql.Database;
 import de.epiceric.shopchest.sql.MySQL;
 import de.epiceric.shopchest.sql.SQLite;
-import de.epiceric.shopchest.utils.Callback;
-import de.epiceric.shopchest.utils.ClickType;
-import de.epiceric.shopchest.utils.Permissions;
-import de.epiceric.shopchest.utils.ShopUpdater;
-import de.epiceric.shopchest.utils.ShopUtils;
-import de.epiceric.shopchest.utils.UpdateChecker;
+import de.epiceric.shopchest.utils.*;
 import de.epiceric.shopchest.utils.UpdateChecker.UpdateCheckerResult;
-import de.epiceric.shopchest.utils.Utils;
 import fr.xephi.authme.AuthMe;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import me.wiefferink.areashop.AreaShop;
@@ -53,7 +34,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
-
 import pl.islandworld.IslandWorld;
 import us.talabrek.ultimateskyblock.api.uSkyBlockAPI;
 import world.bentobox.bentobox.BentoBox;
@@ -316,10 +296,6 @@ public class ShopChest extends JavaPlugin {
             WorldGuardWrapper.getInstance().registerEvents(this);
         }
 
-        if (hasPlotSquared()) {
-            PlotSquaredShopFlag.register(this);
-        }
-
         if (hasBentoBox()) {
             BentoBoxShopFlag.register(this);
         }
@@ -448,8 +424,6 @@ public class ShopChest extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
         if (hasIslandWorld())
             getServer().getPluginManager().registerEvents(new IslandWorldListener(this), this);
-        if (hasPlotSquared())
-            getServer().getPluginManager().registerEvents(new PlotSquaredListener(this), this);
         if (hasTowny())
             getServer().getPluginManager().registerEvents(new TownyListener(this), this);
         if (hasUSkyBlock())

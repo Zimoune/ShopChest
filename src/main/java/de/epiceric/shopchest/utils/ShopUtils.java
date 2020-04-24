@@ -5,12 +5,11 @@ import de.epiceric.shopchest.config.Config;
 import de.epiceric.shopchest.event.ShopsLoadedEvent;
 import de.epiceric.shopchest.shop.Shop;
 import de.epiceric.shopchest.shop.Shop.ShopType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
@@ -91,8 +90,8 @@ public class ShopUtils {
 
         if (ih instanceof DoubleChest) {
             DoubleChest dc = (DoubleChest) ih;
-            Chest r = (Chest) dc.getRightSide();
-            Chest l = (Chest) dc.getLeftSide();
+            Container r = (Container) dc.getRightSide();
+            Container l = (Container) dc.getLeftSide();
 
             plugin.debug("Added shop as double chest. (#" + shop.getID() + ")");
 
@@ -138,8 +137,8 @@ public class ShopUtils {
 
             if (ih instanceof DoubleChest) {
                 DoubleChest dc = (DoubleChest) ih;
-                Chest r = (Chest) dc.getRightSide();
-                Chest l = (Chest) dc.getLeftSide();
+                Container r = (Container) dc.getRightSide();
+                Container l = (Container) dc.getLeftSide();
 
                 shopLocation.remove(r.getLocation());
                 shopLocation.remove(l.getLocation());

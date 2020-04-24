@@ -1,42 +1,30 @@
 package de.epiceric.shopchest.listeners;
 
-import com.github.intellectualsites.plotsquared.plot.object.Plot;
 import com.google.gson.JsonPrimitive;
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.config.Config;
 import de.epiceric.shopchest.config.Placeholder;
-import de.epiceric.shopchest.event.ShopBuySellEvent;
-import de.epiceric.shopchest.event.ShopCreateEvent;
-import de.epiceric.shopchest.event.ShopInfoEvent;
-import de.epiceric.shopchest.event.ShopOpenEvent;
-import de.epiceric.shopchest.event.ShopRemoveEvent;
-import de.epiceric.shopchest.external.PlotSquaredShopFlag;
-import de.epiceric.shopchest.external.PlotSquaredShopFlag.GroupFlag;
+import de.epiceric.shopchest.event.*;
 import de.epiceric.shopchest.language.LanguageUtils;
 import de.epiceric.shopchest.language.Message;
 import de.epiceric.shopchest.language.Replacement;
 import de.epiceric.shopchest.nms.JsonBuilder;
 import de.epiceric.shopchest.shop.Shop;
-import de.epiceric.shopchest.shop.ShopProduct;
 import de.epiceric.shopchest.shop.Shop.ShopType;
+import de.epiceric.shopchest.shop.ShopProduct;
 import de.epiceric.shopchest.sql.Database;
-import de.epiceric.shopchest.utils.ClickType;
-import de.epiceric.shopchest.utils.ItemUtils;
-import de.epiceric.shopchest.utils.Permissions;
-import de.epiceric.shopchest.utils.ShopUtils;
-import de.epiceric.shopchest.utils.Utils;
+import de.epiceric.shopchest.utils.*;
 import de.epiceric.shopchest.utils.ClickType.CreateClickType;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -54,12 +42,7 @@ import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,13 +68,13 @@ public class ShopInteractListener implements Listener {
 
         Inventory chestInv = e.getInventory();
 
-        if (!(chestInv.getHolder() instanceof Chest || chestInv.getHolder() instanceof DoubleChest)) {
+        if (!(chestInv.getHolder() instanceof Container || chestInv.getHolder() instanceof DoubleChest)) {
             return;
         }
 
         Location loc = null;
-        if (chestInv.getHolder() instanceof Chest) {
-            loc = ((Chest) chestInv.getHolder()).getLocation();
+        if (chestInv.getHolder() instanceof Container) {
+            loc = ((Container) chestInv.getHolder()).getLocation();
         } else if (chestInv.getHolder() instanceof DoubleChest) {
             loc = ((DoubleChest) chestInv.getHolder()).getLocation();
         }
@@ -111,14 +94,15 @@ public class ShopInteractListener implements Listener {
     public void onPlayerInteractCreate(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Block b = e.getClickedBlock();
-
+        if(b == null)
+            return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
         if (!(ClickType.getPlayerClickType(p) instanceof CreateClickType))
             return;
 
-        if (b.getType() != Material.CHEST && b.getType() != Material.TRAPPED_CHEST)
+        if (!Config.allowedContainerType.contains(b.getType()))
             return;
 
         if (ClickType.getPlayerClickType(p).getClickType() != ClickType.EnumClickType.CREATE)
@@ -157,13 +141,16 @@ public class ShopInteractListener implements Listener {
         Player p = e.getPlayer();
         boolean inverted = Config.invertMouseButtons;
 
+        if(b == null)
+            return;
+
         if (Utils.getMajorVersion() >= 9 && e.getHand() == EquipmentSlot.OFF_HAND)
             return;
 
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
             return;
         
-        if (b.getType() != Material.CHEST && b.getType() != Material.TRAPPED_CHEST)
+        if (!Config.allowedContainerType.contains(b.getType()))
             return;
         
         ClickType clickType = ClickType.getPlayerClickType(p);
@@ -253,16 +240,6 @@ public class ShopInteractListener implements Listener {
                             // TODO: Outsource shop use external permission
                             boolean externalPluginsAllowed = true;
 
-                            if (plugin.hasPlotSquared() && Config.enablePlotsquaredIntegration) {
-                                com.github.intellectualsites.plotsquared.plot.object.Location plotLocation =
-                                        new com.github.intellectualsites.plotsquared.plot.object.Location(b.getWorld().getName(), b.getX(), b.getY(), b.getZ());
-
-                                Plot plot = plotLocation.getOwnedPlot();
-                                GroupFlag flag = shop.getShopType() == Shop.ShopType.ADMIN ? PlotSquaredShopFlag.USE_ADMIN_SHOP : PlotSquaredShopFlag.USE_SHOP;
-
-                                externalPluginsAllowed = PlotSquaredShopFlag.isFlagAllowedOnPlot(plot, flag, p);
-                            }
-
                             if (externalPluginsAllowed && plugin.hasWorldGuard() && Config.enableWorldGuardIntegration) {
                                 String flagName = (shop.getShopType() == ShopType.ADMIN ? "use-admin-shop" : "use-shop");
                                 WorldGuardWrapper wgWrapper = WorldGuardWrapper.getInstance();
@@ -295,7 +272,7 @@ public class ShopInteractListener implements Listener {
                                 }
                             } else {
                                 if (externalPluginsAllowed || p.hasPermission(Permissions.BYPASS_EXTERNAL_PLUGIN)) {
-                                    Chest c = (Chest) b.getState();
+                                    Container c = (Container) b.getState();
                                     ItemStack itemStack = shop.getProduct().getItemStack();
                                     int amount = (p.isSneaking() ? itemStack.getMaxStackSize() : shop.getProduct().getAmount());
 
@@ -367,16 +344,6 @@ public class ShopInteractListener implements Listener {
                         if (p.hasPermission(Permissions.SELL)) {
                             // TODO: Outsource shop use external permission
                             boolean externalPluginsAllowed = true;
-
-                            if (plugin.hasPlotSquared() && Config.enablePlotsquaredIntegration) {
-                                com.github.intellectualsites.plotsquared.plot.object.Location plotLocation =
-                                        new com.github.intellectualsites.plotsquared.plot.object.Location(b.getWorld().getName(), b.getX(), b.getY(), b.getZ());
-
-                                Plot plot = plotLocation.getOwnedPlot();
-                                GroupFlag flag = shop.getShopType() == Shop.ShopType.ADMIN ? PlotSquaredShopFlag.USE_ADMIN_SHOP : PlotSquaredShopFlag.USE_SHOP;
-                                
-                                externalPluginsAllowed = PlotSquaredShopFlag.isFlagAllowedOnPlot(plot, flag, p);
-                            }
 
                             if (externalPluginsAllowed && plugin.hasWorldGuard() && Config.enableWorldGuardIntegration) {
                                 String flagName = (shop.getShopType() == ShopType.ADMIN ? "use-admin-shop" : "use-shop");
@@ -589,7 +556,7 @@ public class ShopInteractListener implements Listener {
             return;
         }
 
-        Chest c = (Chest) shop.getLocation().getBlock().getState();
+        Container c = (Container) shop.getLocation().getBlock().getState();
         ItemStack itemStack = shop.getProduct().getItemStack();
         int amount = Utils.getAmount(c.getInventory(), itemStack);
         int space = Utils.getFreeSpaceForItem(c.getInventory(), itemStack);
@@ -736,7 +703,7 @@ public class ShopInteractListener implements Listener {
             plugin.debug(executor.getName() + " has enough money for " + amountForMoney + " item(s) (#" + shop.getID() + ")");
 
             Block b = shop.getLocation().getBlock();
-            Chest c = (Chest) b.getState();
+            Container c = (Container) b.getState();
 
             int amountForChestItems = Utils.getAmount(c.getInventory(), itemStack);
 
@@ -899,7 +866,7 @@ public class ShopInteractListener implements Listener {
             }
 
             Block block = shop.getLocation().getBlock();
-            Chest chest = (Chest) block.getState();
+            Container chest = (Container) block.getState();
 
             int amountForItemCount = Utils.getAmount(executor.getInventory(), itemStack);
 

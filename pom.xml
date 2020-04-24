@@ -109,12 +109,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.intellectualsites.plotsquared</groupId>
-            <artifactId>PlotSquared-API</artifactId>
-            <version>4.226</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.rlf</groupId>
             <artifactId>uSkyBlock-API</artifactId>
             <version>2.6.4</version>

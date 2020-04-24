@@ -184,6 +184,14 @@ towny-shop-plots:
   king:
     - "COMMERCIAL"
 
+# Set the container type allowed to create a shop with
+allowed-container-type:
+ - "CHEST"
+ - "TRAPPED_CHEST"
+# - "BARREL"
+
+
+
 # Configuration of the database, where everything is stored.
 # Shops are found in the table 'shopchest_shops', and logged economy
 # transactions are found in the table 'shopchest_economy_logs'

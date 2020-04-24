@@ -14,10 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.DoubleChest;
+import org.bukkit.block.*;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,7 +22,10 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class Shop {
 
@@ -36,10 +36,10 @@ public class Shop {
 
     private static class PreCreateResult {
         private final Inventory inventory;
-        private final Chest[] chests;
+        private final Container[] chests;
         private final BlockFace face;
 
-        private PreCreateResult(Inventory inventory, Chest[] chests, BlockFace face) {
+        private PreCreateResult(Inventory inventory, Container[] chests, BlockFace face) {
             this.inventory = inventory;
             this.chests = chests;
             this.face = face;
@@ -109,7 +109,7 @@ public class Shop {
         plugin.debug("Creating shop (#" + id + ")");
 
         Block b = location.getBlock();
-        if (b.getType() != Material.CHEST && b.getType() != Material.TRAPPED_CHEST) {
+        if (!Config.allowedContainerType.contains(b.getType())) {
             ChestNotFoundException ex = new ChestNotFoundException(String.format("No Chest found in world '%s' at location: %d; %d; %d",
                     b.getWorld().getName(), b.getX(), b.getY(), b.getZ()));
             plugin.getShopUtils().removeShop(this, Config.removeShopOnError);
@@ -178,8 +178,11 @@ public class Shop {
         plugin.debug("Creating item (#" + id + ")");
 
         Location itemLocation;
-
-        itemLocation = new Location(location.getWorld(), holoLocation.getX(), location.getY() + 0.9, holoLocation.getZ());
+        Block b = location.getBlock();
+        double deltaY = 0.9;
+        if(!(b instanceof Chest) && !(b instanceof DoubleChest))
+            deltaY = 1;
+        itemLocation = new Location(location.getWorld(), holoLocation.getX(), location.getY() + deltaY, holoLocation.getZ());
         item = new ShopItem(plugin, product.getItemStack(), itemLocation);
     }
 
@@ -194,18 +197,18 @@ public class Shop {
 
         if (ih == null) return null;
 
-        Chest[] chests = new Chest[2];
+        Container[] chests = new Container[2];
         BlockFace face;
 
         if (ih instanceof DoubleChest) {
             DoubleChest dc = (DoubleChest) ih;
-            Chest r = (Chest) dc.getRightSide();
-            Chest l = (Chest) dc.getLeftSide();
+            Container r = (Container) dc.getRightSide();
+            Container l = (Container) dc.getLeftSide();
 
             chests[0] = r;
             chests[1] = l;
         } else {
-            chests[0] = (Chest) ih;
+            chests[0] = (Container) ih;
         }
 
         if (Utils.getMajorVersion() < 13) {
@@ -321,7 +324,7 @@ public class Shop {
         return lines.toArray(new String[0]);
     }
 
-    private Location getHologramLocation(Chest[] chests, BlockFace face) {
+    private Location getHologramLocation(Container[] chests, BlockFace face) {
         World w = location.getWorld();
         int x = location.getBlockX();
         int y  = location.getBlockY();
@@ -329,13 +332,14 @@ public class Shop {
 
         Location holoLocation = new Location(w, x, y, z);
 
-        double deltaY = -0.6;
+        double deltaY = -0.5;
+        Container chest = chests[0];
 
-        if (Config.hologramFixedBottom) deltaY = -0.85;
+        if (!Config.hologramFixedBottom) deltaY = -0.6;
 
         if (chests[1] != null) {
-            Chest c1 = Utils.getMajorVersion() >= 13 && (face == BlockFace.NORTH || face == BlockFace.EAST) ? chests[1] : chests[0];
-            Chest c2 = Utils.getMajorVersion() >= 13 && (face == BlockFace.NORTH || face == BlockFace.EAST) ? chests[0] : chests[1];
+            Container c1 = Utils.getMajorVersion() >= 13 && (face == BlockFace.NORTH || face == BlockFace.EAST) ? chests[1] : chests[0];
+            Container c2 = Utils.getMajorVersion() >= 13 && (face == BlockFace.NORTH || face == BlockFace.EAST) ? chests[0] : chests[1];
 
             if (holoLocation.equals(c1.getLocation())) {
                 if (c1.getX() != c2.getX()) {
@@ -465,8 +469,8 @@ public class Shop {
     public InventoryHolder getInventoryHolder() {
         Block b = getLocation().getBlock();
 
-        if (b.getType() == Material.CHEST || b.getType() == Material.TRAPPED_CHEST) {
-            Chest chest = (Chest) b.getState();
+        if (Config.allowedContainerType.contains(b.getType())) {
+            Container chest = (Container) b.getState();
             return chest.getInventory().getHolder();
         }
 
