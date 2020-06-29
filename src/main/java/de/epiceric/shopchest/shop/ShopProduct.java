@@ -1,8 +1,7 @@
 package de.epiceric.shopchest.shop;
 
-import org.bukkit.inventory.ItemStack;
-
 import de.epiceric.shopchest.language.LanguageUtils;
+import org.bukkit.inventory.ItemStack;
 
 public class ShopProduct {
 

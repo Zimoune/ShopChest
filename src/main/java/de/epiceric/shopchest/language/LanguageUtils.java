@@ -1,9 +1,12 @@
 package de.epiceric.shopchest.language;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.StringJoiner;
-
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.config.Config;
+import de.epiceric.shopchest.config.LanguageConfiguration;
+import de.epiceric.shopchest.config.Placeholder;
+import de.epiceric.shopchest.nms.CustomBookMeta;
+import de.epiceric.shopchest.nms.SpawnEggMeta;
+import de.epiceric.shopchest.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,13 +20,9 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.config.Config;
-import de.epiceric.shopchest.config.LanguageConfiguration;
-import de.epiceric.shopchest.config.Placeholder;
-import de.epiceric.shopchest.nms.CustomBookMeta;
-import de.epiceric.shopchest.nms.SpawnEggMeta;
-import de.epiceric.shopchest.utils.Utils;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.StringJoiner;
 
 public class LanguageUtils {
 

@@ -1,11 +1,10 @@
 package de.epiceric.shopchest.event;
 
-import java.util.Collection;
-
+import de.epiceric.shopchest.shop.Shop;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import de.epiceric.shopchest.shop.Shop;
+import java.util.Collection;
 
 /**
  * Called when shops have been loaded and added to the server

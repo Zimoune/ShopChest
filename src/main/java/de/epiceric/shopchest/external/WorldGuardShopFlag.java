@@ -1,13 +1,12 @@
 package de.epiceric.shopchest.external;
 
-import java.util.Optional;
-
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.config.Config;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.config.Config;
+import java.util.Optional;
 
 public class WorldGuardShopFlag {
 

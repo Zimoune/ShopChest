@@ -1,19 +1,18 @@
 package de.epiceric.shopchest.shop;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.utils.Utils;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ShopItem {
     private final ShopChest plugin;

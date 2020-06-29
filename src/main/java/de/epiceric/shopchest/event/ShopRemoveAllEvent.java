@@ -1,14 +1,13 @@
 package de.epiceric.shopchest.event;
 
-import java.util.List;
-
+import de.epiceric.shopchest.shop.Shop;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import de.epiceric.shopchest.shop.Shop;
+import java.util.List;
 
 public class ShopRemoveAllEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();

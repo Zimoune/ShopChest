@@ -1,16 +1,14 @@
 package de.epiceric.shopchest.sql;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.config.Config;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import org.bukkit.scheduler.BukkitRunnable;
-
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.config.Config;
 
 public class MySQL extends Database {
 

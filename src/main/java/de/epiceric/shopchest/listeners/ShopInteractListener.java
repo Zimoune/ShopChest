@@ -1,11 +1,12 @@
 package de.epiceric.shopchest.listeners;
 
-<<<<<<< HEAD
 import com.google.gson.JsonPrimitive;
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.config.Config;
 import de.epiceric.shopchest.config.Placeholder;
 import de.epiceric.shopchest.event.*;
+import de.epiceric.shopchest.external.PlotSquaredOldShopFlag;
+import de.epiceric.shopchest.external.PlotSquaredShopFlag;
 import de.epiceric.shopchest.language.LanguageUtils;
 import de.epiceric.shopchest.language.Message;
 import de.epiceric.shopchest.language.Replacement;
@@ -19,21 +20,6 @@ import de.epiceric.shopchest.utils.ClickType.CreateClickType;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-=======
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.google.gson.JsonPrimitive;
-
->>>>>>> upstream/master
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -58,39 +44,11 @@ import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
-<<<<<<< HEAD
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-=======
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.config.Config;
-import de.epiceric.shopchest.config.Placeholder;
-import de.epiceric.shopchest.event.ShopBuySellEvent;
-import de.epiceric.shopchest.event.ShopCreateEvent;
-import de.epiceric.shopchest.event.ShopInfoEvent;
-import de.epiceric.shopchest.event.ShopOpenEvent;
-import de.epiceric.shopchest.event.ShopRemoveEvent;
-import de.epiceric.shopchest.external.PlotSquaredOldShopFlag;
-import de.epiceric.shopchest.external.PlotSquaredShopFlag;
-import de.epiceric.shopchest.language.LanguageUtils;
-import de.epiceric.shopchest.language.Message;
-import de.epiceric.shopchest.language.Replacement;
-import de.epiceric.shopchest.nms.JsonBuilder;
-import de.epiceric.shopchest.shop.Shop;
-import de.epiceric.shopchest.shop.Shop.ShopType;
-import de.epiceric.shopchest.shop.ShopProduct;
-import de.epiceric.shopchest.sql.Database;
-import de.epiceric.shopchest.utils.ClickType;
-import de.epiceric.shopchest.utils.ClickType.CreateClickType;
-import de.epiceric.shopchest.utils.ItemUtils;
-import de.epiceric.shopchest.utils.Permissions;
-import de.epiceric.shopchest.utils.ShopUtils;
-import de.epiceric.shopchest.utils.Utils;
-import fr.xephi.authme.api.v3.AuthMeApi;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
->>>>>>> upstream/master
 
 public class ShopInteractListener implements Listener {
     private static final Pattern COLOR_CODE_PATTERN = Pattern.compile(".*([§]([a-fA-F0-9]))");
@@ -286,8 +244,6 @@ public class ShopInteractListener implements Listener {
                             // TODO: Outsource shop use external permission
                             boolean externalPluginsAllowed = true;
 
-<<<<<<< HEAD
-=======
                             if (plugin.hasPlotSquared() && Config.enablePlotsquaredIntegration) {
                                 try {
                                     Class.forName("com.plotsquared.core.PlotSquared");
@@ -303,7 +259,6 @@ public class ShopInteractListener implements Listener {
                                 }
                             }
 
->>>>>>> upstream/master
                             if (externalPluginsAllowed && plugin.hasWorldGuard() && Config.enableWorldGuardIntegration) {
                                 String flagName = (shop.getShopType() == ShopType.ADMIN ? "use-admin-shop" : "use-shop");
                                 WorldGuardWrapper wgWrapper = WorldGuardWrapper.getInstance();
@@ -413,9 +368,6 @@ public class ShopInteractListener implements Listener {
                         if (p.hasPermission(Permissions.SELL)) {
                             // TODO: Outsource shop use external permission
                             boolean externalPluginsAllowed = true;
-
-<<<<<<< HEAD
-=======
                             if (plugin.hasPlotSquared() && Config.enablePlotsquaredIntegration) {
                                 try {
                                     Class.forName("com.plotsquared.core.PlotSquared");
@@ -430,8 +382,6 @@ public class ShopInteractListener implements Listener {
                                     externalPluginsAllowed = PlotSquaredOldShopFlag.isFlagAllowedOnPlot(plot, PlotSquaredOldShopFlag.USE_SHOP, p);
                                 }
                             }
-
->>>>>>> upstream/master
                             if (externalPluginsAllowed && plugin.hasWorldGuard() && Config.enableWorldGuardIntegration) {
                                 String flagName = (shop.getShopType() == ShopType.ADMIN ? "use-admin-shop" : "use-shop");
                                 WorldGuardWrapper wgWrapper = WorldGuardWrapper.getInstance();

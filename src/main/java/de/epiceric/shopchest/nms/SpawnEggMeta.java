@@ -1,12 +1,11 @@
-package de.epiceric.shopchest.nms;	
-	
-import java.lang.reflect.InvocationTargetException;
-
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
+package de.epiceric.shopchest.nms;
 
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.utils.Utils;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
+import java.lang.reflect.InvocationTargetException;
 	
 public class SpawnEggMeta {	
 	

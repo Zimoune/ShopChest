@@ -1,6 +1,5 @@
 package de.epiceric.shopchest.listeners;
 
-<<<<<<< HEAD
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.config.Config;
 import de.epiceric.shopchest.config.Placeholder;
@@ -12,10 +11,6 @@ import de.epiceric.shopchest.shop.Shop;
 import de.epiceric.shopchest.shop.Shop.ShopType;
 import de.epiceric.shopchest.utils.*;
 import net.milkbowl.vault.economy.EconomyResponse;
-=======
-import java.util.ArrayList;
-
->>>>>>> upstream/master
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,21 +31,7 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryHolder;
 
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.config.Config;
-import de.epiceric.shopchest.config.Placeholder;
-import de.epiceric.shopchest.event.ShopExtendEvent;
-import de.epiceric.shopchest.language.LanguageUtils;
-import de.epiceric.shopchest.language.Message;
-import de.epiceric.shopchest.language.Replacement;
-import de.epiceric.shopchest.shop.Shop;
-import de.epiceric.shopchest.shop.Shop.ShopType;
-import de.epiceric.shopchest.utils.Callback;
-import de.epiceric.shopchest.utils.ItemUtils;
-import de.epiceric.shopchest.utils.Permissions;
-import de.epiceric.shopchest.utils.ShopUtils;
-import de.epiceric.shopchest.utils.Utils;
-import net.milkbowl.vault.economy.EconomyResponse;
+import java.util.ArrayList;
 
 public class ChestProtectListener implements Listener {
 

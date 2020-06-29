@@ -1,8 +1,7 @@
 package de.epiceric.shopchest.utils;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import de.epiceric.shopchest.ShopChest;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class Callback<T> {
     private ShopChest plugin;

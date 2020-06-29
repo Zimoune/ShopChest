@@ -1,9 +1,5 @@
 package de.epiceric.shopchest.external;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Locale;
-
 import com.plotsquared.core.configuration.Caption;
 import com.plotsquared.core.configuration.Captions;
 import com.plotsquared.core.configuration.StaticCaption;
@@ -11,11 +7,13 @@ import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.flag.FlagParseException;
 import com.plotsquared.core.plot.flag.GlobalFlagContainer;
 import com.plotsquared.core.plot.flag.PlotFlag;
-
+import de.epiceric.shopchest.ShopChest;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import de.epiceric.shopchest.ShopChest;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Locale;
 
 public class PlotSquaredShopFlag {
     public enum Group {

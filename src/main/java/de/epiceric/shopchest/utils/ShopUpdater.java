@@ -1,13 +1,12 @@
 package de.epiceric.shopchest.utils;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import de.epiceric.shopchest.ShopChest;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import de.epiceric.shopchest.ShopChest;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ShopUpdater {
     

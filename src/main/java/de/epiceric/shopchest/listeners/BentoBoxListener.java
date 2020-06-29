@@ -1,17 +1,13 @@
 package de.epiceric.shopchest.listeners;
 
-import java.util.Collection;
-import java.util.UUID;
-
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.config.Config;
+import de.epiceric.shopchest.shop.Shop;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.util.BoundingBox;
-
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.config.Config;
-import de.epiceric.shopchest.shop.Shop;
 import world.bentobox.bentobox.api.events.island.IslandEvent.IslandBanEvent;
 import world.bentobox.bentobox.api.events.island.IslandEvent.IslandDeleteChunksEvent;
 import world.bentobox.bentobox.api.events.island.IslandEvent.IslandDeletedEvent;
@@ -20,6 +16,9 @@ import world.bentobox.bentobox.api.events.team.TeamEvent.TeamKickEvent;
 import world.bentobox.bentobox.api.events.team.TeamEvent.TeamLeaveEvent;
 import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.database.objects.IslandDeletion;
+
+import java.util.Collection;
+import java.util.UUID;
 
 public class BentoBoxListener implements Listener {
     private ShopChest plugin;

@@ -1,6 +1,5 @@
 package de.epiceric.shopchest.config;
 
-<<<<<<< HEAD
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.language.LanguageUtils;
 import de.epiceric.shopchest.sql.Database;
@@ -10,23 +9,12 @@ import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.inventory.ItemStack;
 
-=======
->>>>>>> upstream/master
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.inventory.ItemStack;
-
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.language.LanguageUtils;
-import de.epiceric.shopchest.sql.Database;
-import de.epiceric.shopchest.utils.ItemUtils;
-import de.epiceric.shopchest.utils.Utils;
 
 public class Config {
 

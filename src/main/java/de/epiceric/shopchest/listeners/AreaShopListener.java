@@ -1,10 +1,5 @@
 package de.epiceric.shopchest.listeners;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.codemc.worldguardwrapper.WorldGuardWrapper;
-import org.codemc.worldguardwrapper.region.IWrappedRegion;
-
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.config.Config;
 import de.epiceric.shopchest.shop.Shop;
@@ -13,6 +8,10 @@ import me.wiefferink.areashop.events.notify.ResoldRegionEvent;
 import me.wiefferink.areashop.events.notify.SoldRegionEvent;
 import me.wiefferink.areashop.events.notify.UnrentedRegionEvent;
 import me.wiefferink.areashop.regions.GeneralRegion;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.codemc.worldguardwrapper.WorldGuardWrapper;
+import org.codemc.worldguardwrapper.region.IWrappedRegion;
 
 public class AreaShopListener implements Listener {
 

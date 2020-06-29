@@ -1,20 +1,13 @@
 package de.epiceric.shopchest.nms;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import de.epiceric.shopchest.ShopChest;
-import de.epiceric.shopchest.utils.Utils;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JsonBuilder {
 

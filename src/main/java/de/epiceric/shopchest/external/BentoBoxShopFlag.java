@@ -1,8 +1,7 @@
 package de.epiceric.shopchest.external;
 
-import org.bukkit.Material;
-
 import de.epiceric.shopchest.ShopChest;
+import org.bukkit.Material;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.flags.Flag;
 import world.bentobox.bentobox.managers.RanksManager;
