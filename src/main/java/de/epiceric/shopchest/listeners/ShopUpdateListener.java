@@ -1,8 +1,14 @@
 package de.epiceric.shopchest.listeners;
 
+<<<<<<< HEAD
 import de.epiceric.shopchest.ShopChest;
 import de.epiceric.shopchest.shop.Shop;
 import de.epiceric.shopchest.utils.Callback;
+=======
+import java.util.HashSet;
+import java.util.Set;
+
+>>>>>>> upstream/master
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Container;
@@ -18,8 +24,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+<<<<<<< HEAD
 import java.util.HashSet;
 import java.util.Set;
+=======
+import de.epiceric.shopchest.ShopChest;
+import de.epiceric.shopchest.shop.Shop;
+import de.epiceric.shopchest.utils.Callback;
+>>>>>>> upstream/master
 
 public class ShopUpdateListener implements Listener {
 
